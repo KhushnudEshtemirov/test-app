@@ -19,7 +19,7 @@ export default function Page() {
         </Form.Item>
         <hr className="mt-4 text-[#0E0E0E1A]" />
         <Form.Item>
-          <Space className="w-full flex justify-between mt-5 -ml-6">
+          <Space className="w-full flex justify-between mt-5">
             <Button>Add more</Button>
             <Button type="primary" htmlType="submit">
               Save

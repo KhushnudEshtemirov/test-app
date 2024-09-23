@@ -9,7 +9,7 @@ type PropsType = {
 
 export function CustomButton({ children, type, htmlType }: PropsType) {
   return (
-    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+    <Form.Item>
       <Button type={type} htmlType={htmlType}>
         {children}
       </Button>
