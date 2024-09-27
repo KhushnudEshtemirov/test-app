@@ -1,16 +1,24 @@
 import { Space, Table } from "antd";
 import type { TableProps } from "antd";
+import { useQuery } from "@tanstack/react-query";
+
 import { Button } from "../../shared/ui";
+import { httpGet } from "../../shared/api";
 
 interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
+  id: number;
+  title: string;
+  description: string;
+  likes: number;
+  created_at: string;
 }
 
 export default function Page() {
+  const { isError, error, isLoading, data } = useQuery({
+    queryKey: ["getPosts"],
+    queryFn: async () => await httpGet("/get-posts"),
+  });
+
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Name",
@@ -40,29 +48,13 @@ export default function Page() {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
+  console.log(data, error);
+
+  if (isLoading) return <p>Loading...</p>;
+
+  if (isError) return <p className="text-red-700">Something went wrong.</p>;
+
+  const posts: DataType[] = data;
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
@@ -70,7 +62,7 @@ export default function Page() {
         <Button type="primary">New document form</Button>
         <Table<DataType>
           columns={columns}
-          dataSource={data}
+          dataSource={posts}
           className="w-full"
         />
       </div>
